@@ -1,100 +1,133 @@
-body {
-    font-family: sans-serif;
+
+html, body {
+    height: 100%;
     margin: 0;
-    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    font-family: sans-serif;
 }
 
 .phone-view {
-    max-width: 480px;
-    margin: 0 auto;
+    width: 375px;
+    height: 667px;
+    border: 1px solid #ccc;
     background-color: white;
-    min-height: 100vh;
-}
-
-header {
-    background-color: #1877f2;
-    color: white;
-    padding: 1em;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
+    flex-direction: column;
+    overflow: hidden;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 1.5em;
-}
-
-#auth-container a,
-#auth-container button {
+.header {
+    padding: 15px;
+    background-color: #007bff;
     color: white;
-    background-color: transparent;
-    border: 1px solid white;
-    border-radius: 5px;
-    padding: 0.5em 1em;
+    display: flex;
+    justify-content: space-between; /* <-- This is the key change */
+    align-items: center;
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+#auth-container .btn-login, 
+#auth-container #logout-btn {
+    padding: 8px 12px;
+    background-color: white;
+    color: #007bff;
     text-decoration: none;
-    font-size: 0.9em;
+    border-radius: 5px;
+    border: none;
     cursor: pointer;
+    font-size: 14px; /* Consistent font size */
+}
+
+#auth-container #logout-btn:hover {
+    background-color: #e2e6ea;
 }
 
 #app {
-    padding: 1em;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden; /* Prevent double scrollbars */
 }
 
-/* 주제 생성 영역 */
 #topic-creation-container {
-    margin-bottom: 2em;
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px solid #eee;
 }
 
-#topic-creation-container input[type="text"] {
-    width: calc(100% - 80px);
-    padding: 0.8em;
-    border: 1px solid #ddd;
-    border-radius: 5px 0 0 5px;
-    box-sizing: border-box;
+#topic-creation-container .login-prompt {
+    width: 100%;
+    text-align: center;
+    color: #555;
 }
 
-#topic-creation-container button {
-    width: 80px;
-    padding: 0.8em;
+#topic-creation-container .login-prompt a {
+    color: #007bff;
+}
+
+#topic-title {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#add-topic-btn {
+    padding: 10px 15px;
     border: none;
-    background-color: #1877f2;
+    background-color: #007bff;
     color: white;
-    border-radius: 0 5px 5px 0;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-/* 로그인 안내 */
-.login-prompt {
-    text-align: center;
-    padding: 2em;
-    background-color: #f9f9f9;
-    border: 1px solid #eee;
+#add-topic-btn:hover {
+    background-color: #0056b3;
+}
+
+#topics-list {
+    overflow-y: auto;
+    flex-grow: 1;
+    padding: 15px;
+}
+
+.topic-item-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    gap: 10px;
+}
+
+.delete-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
     border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    flex-shrink: 0;
 }
 
-.login-prompt p {
-    margin-top: 0;
+.delete-btn:hover {
+    background: #cc0000;
 }
 
-.login-prompt a {
-    color: #1877f2;
-    font-weight: bold;
+.topic-title {
+    cursor: pointer; 
 }
 
-
-/* 주제 목록 */
-#topics-list .topic-item {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 1em;
-    margin-bottom: 0.5em;
-    border-radius: 5px;
-    cursor: pointer; /* 클릭 가능함을 알려주는 커서 스타일 */
-}
-
-#topics-list .topic-item:hover {
-    background-color: #f9f9f9; /* 마우스를 올렸을 때 배경색 변경 */
+.topic-title:hover {
+    text-decoration: underline;
 }

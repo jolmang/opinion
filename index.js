@@ -2,7 +2,7 @@
 // Import the shared DB and Auth instances from main.js
 import { db, auth } from './main.js';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { collection, addDoc, getDocs, serverTimestamp, query, orderBy } from 'firebase/firestore';
+import { collection, addDoc, getDocs, serverTimestamp, query, orderBy, doc, deleteDoc } from 'firebase/firestore';
 
 const authContainer = document.getElementById('auth-container');
 const topicCreationContainer = document.getElementById('topic-creation-container');
@@ -15,6 +15,7 @@ onAuthStateChanged(auth, (user) => {
     } else {
         renderLoggedOutUI();
     }
+    fetchTopics();
 });
 
 // 2. Render UI for logged-in users
@@ -59,7 +60,7 @@ async function addTopic(userId) {
                 createdAt: serverTimestamp()
             });
             titleInput.value = '';
-            fetchTopics(); // Re-fetch topics to show the new one
+            fetchTopics();
         } catch (error) {
             console.error("주제 추가 에러: ", error);
             alert("주제 추가에 실패했습니다. 잠시 후 다시 시도해주세요.");
@@ -67,29 +68,58 @@ async function addTopic(userId) {
     }
 }
 
-// 5. Fetch and display all topics
+// 5. Delete a topic from Firestore
+async function deleteTopic(topicId) {
+    if (confirm('정말로 이 주제를 삭제하시겠습니까?')) {
+        try {
+            await deleteDoc(doc(db, 'topics', topicId));
+            fetchTopics();
+        } catch (error) {
+            console.error("주제 삭제 에러: ", error);
+            alert("주제 삭제에 실패했습니다.");
+        }
+    }
+}
+
+// 6. Fetch and display all topics
 async function fetchTopics() {
-    topicsList.innerHTML = ''; // Clear the list before fetching
+    topicsList.innerHTML = '';
+    const currentUser = auth.currentUser;
+
     try {
         const q = query(collection(db, "topics"), orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
         
         if (querySnapshot.empty) {
-            topicsList.innerHTML = '<p style="text-align:center; color:#888;">아직 등록된 주제가 없습니다. 로그인 후 첫 주제를 등록해보세요!</p>';
+            topicsList.innerHTML = '<p style="text-align:center; color:#888;">아직 등록된 주제가 없습니다.</p>';
         } else {
             querySnapshot.forEach((doc) => {
                 const topic = doc.data();
                 const topicId = doc.id;
-                const topicElement = document.createElement('div');
-                topicElement.className = 'topic-item';
-                topicElement.textContent = topic.title;
 
-                // Add click event to navigate to the comments page
-                topicElement.addEventListener('click', () => {
+                const topicItemContainer = document.createElement('div');
+                topicItemContainer.className = 'topic-item-container';
+
+                const titleElement = document.createElement('span');
+                titleElement.className = 'topic-title';
+                titleElement.textContent = topic.title;
+                titleElement.addEventListener('click', () => {
                     window.location.href = `comments.html?topicId=${topicId}`;
                 });
+                topicItemContainer.appendChild(titleElement);
 
-                topicsList.appendChild(topicElement);
+                if (currentUser && currentUser.uid === topic.authorId) {
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-btn';
+                    deleteBtn.textContent = '삭제';
+                    deleteBtn.addEventListener('click', (event) => {
+                        event.stopPropagation(); // <-- This is the fix!
+                        deleteTopic(topicId);
+                    });
+                    topicItemContainer.appendChild(deleteBtn);
+                }
+
+                topicsList.appendChild(topicItemContainer);
             });
         }
     } catch (error) {

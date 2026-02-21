@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Opinion</title>
+    <title>Opinion - 실시간 토론</title>
     <link rel="stylesheet" href="style.css">
 
     <!-- Firebase SDK Import Map -->
@@ -20,10 +20,11 @@
 </head>
 <body>
     <div class="phone-view">
-        <header>
+        <header class="header">
             <h1>Opinion</h1>
-            <!-- 로그인 상태에 따라 JS가 버튼을 채워줍니다 -->
-            <div id="auth-container"></div>
+            <div id="auth-container">
+                <!-- 로그인/로그아웃 버튼은 JS가 동적으로 렌더링합니다. -->
+            </div>
         </header>
 
         <div id="app">
