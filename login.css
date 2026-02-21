@@ -1,70 +1,66 @@
-body {
-    font-family: sans-serif;
-    margin: 0;
-    background-color: #f0f2f5;
-}
 
-.phone-view {
-    max-width: 480px;
-    margin: 0 auto;
-    background-color: white;
-    min-height: 100vh;
+html, body {
+    height: 100%;
+    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #f0f0f0; /* 배경색은 style.css와 동일하게 유지 */
+    font-family: sans-serif;
 }
 
-#login-app {
-    width: 100%;
-    padding: 2em;
-    box-sizing: border-box;
+.phone-view {
+    width: 375px; /* 스마트폰 화면 너비 */
+    height: 667px; /* 스마트폰 화면 높이 */
+    border: 1px solid #ccc;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 수직 중앙 정렬 */
+    align-items: center; /* 수평 중앙 정렬 */
+}
+
+#login-container {
+    width: 80%; /* 내부 컨텐츠 너비 */
     text-align: center;
 }
 
 h1 {
-    margin-bottom: 2em;
-    color: #1877f2;
-    font-size: 1.5em;
+    margin-bottom: 24px;
 }
 
-input[type="email"], input[type="password"] {
-    width: 100%;
-    padding: 1em;
-    margin-bottom: 1em;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
+#login-form input {
+    width: calc(100% - 20px); /* 패딩 고려 */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-#login-submit-btn {
+#login-form button {
     width: 100%;
-    background-color: #1877f2;
-    color: white;
+    padding: 10px;
     border: none;
-    padding: 1em;
-    margin-bottom: 1.5em;
-    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 1em;
-    font-weight: bold;
+    font-size: 16px;
 }
 
-.sub-links {
-    display: flex;
-    justify-content: center;
-    gap: 0.5em;
-    font-size: 0.9em;
+#login-form button:hover {
+    background-color: #0056b3;
 }
 
-.sub-links a {
-    color: #1877f2;
+.signup-link {
+    margin-top: 20px;
+}
+
+.signup-link a {
+    color: #007bff;
     text-decoration: none;
 }
 
-.sub-links a:hover {
+.signup-link a:hover {
     text-decoration: underline;
-}
-
-.sub-links .separator {
-    color: #ccc;
 }

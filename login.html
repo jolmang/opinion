@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5,30 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
     <link rel="stylesheet" href="login.css">
-</head>
-<body>
-    <div class="phone-view">
-        <div id="login-app">
-            <h1>로그인</h1>
-            <input type="email" id="email-input" placeholder="이메일 주소">
-            <input type="password" id="password-input" placeholder="비밀번호">
-            <button id="login-submit-btn">로그인</button>
-            <div class="sub-links">
-                <a href="signup.html">회원가입</a>
-                <span class="separator">|</span>
-                <a href="index.html">메인으로 돌아가기</a>
-            </div>
-        </div>
-    </div>
 
+    <!-- Firebase SDK Import Map -->
     <script type="importmap">
     {
         "imports": {
-            "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
-            "firebase/auth": "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"
+            "firebase/app": "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js",
+            "firebase/auth": "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js",
+            "firebase/firestore": "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
         }
     }
     </script>
+</head>
+<body>
+    <div class="phone-view">
+        <div id="login-container">
+            <h1>로그인</h1>
+            <form id="login-form">
+                <input type="email" id="email" placeholder="이메일" required>
+                <input type="password" id="password" placeholder="비밀번호" required>
+                <button type="submit">로그인</button>
+            </form>
+            <p class="signup-link">
+                계정이 없으신가요? <a href="signup.html">회원가입</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Import main Firebase configuration first -->
+    <script type="module" src="main.js"></script>
+    <!-- Then, import the logic for the login page -->
     <script type="module" src="login.js"></script>
 </body>
 </html>

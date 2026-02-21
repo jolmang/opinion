@@ -1,42 +1,45 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Opinion</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase SDK Import Map -->
+    <script type="importmap">
+    {
+        "imports": {
+            "firebase/app": "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js",
+            "firebase/auth": "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js",
+            "firebase/firestore": "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
+        }
+    }
+    </script>
 </head>
 <body>
     <div class="phone-view">
         <header>
-            <div class="header-main">
-                <h1></h1>
-            </div>
-            <button id="login-btn">로그인</button>
+            <h1>Opinion</h1>
+            <!-- 로그인 상태에 따라 JS가 버튼을 채워줍니다 -->
+            <div id="auth-container"></div>
         </header>
 
         <div id="app">
-            <section class="topic-creation-card">
-                <p class="card-title">관심있는 이슈를 올려보세요</p>
-                <input type="text" id="topic-input" placeholder="주제를 입력하세요">
-                <input type="password" id="password-input" placeholder="주제 삭제용 비밀번호 (4~8자리)">
-                <button id="add-topic-btn">주제 추가</button>
-            </section>
+            <div id="topic-creation-container">
+                <!-- 주제 생성 폼은 JS가 동적으로 렌더링합니다. -->
+            </div>
 
-            <section id="topics-list">
-                <!-- 주제 목록이 여기에 동적으로 추가됩니다. -->
-            </section>
+            <div id="topics-list">
+                <!-- 주제 목록은 JS가 동적으로 렌더링합니다. -->
+            </div>
         </div>
     </div>
 
-    <script type="importmap">
-    {
-        "imports": {
-            "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
-            "firebase/firestore": "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"
-        }
-    }
-    </script>
+    <!-- Import main Firebase configuration first -->
     <script type="module" src="main.js"></script>
+    <!-- Then, import the logic for the index page -->
+    <script type="module" src="index.js"></script>
 </body>
 </html>

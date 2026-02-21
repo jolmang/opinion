@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5,6 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>댓글</title>
     <link rel="stylesheet" href="comments.css">
+
+    <!-- Firebase SDK Import Map -->
+    <script type="importmap">
+    {
+        "imports": {
+            "firebase/app": "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js",
+            "firebase/auth": "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js",
+            "firebase/firestore": "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
+        }
+    }
+    </script>
 </head>
 <body>
     <div class="phone-view">
@@ -19,19 +31,14 @@
     </div>
     <div id="bottom-controls">
         <div id="comment-form">
-            <input type="text" id="comment-input" placeholder="의견을 입력하세요">
-            <button id="add-comment-btn">의견 추가</button>
+            <!-- Comment form will be dynamically rendered here by comments.js -->
         </div>
         <button id="back-btn">돌아가기</button>
     </div>
-    <script type="importmap">
-    {
-        "imports": {
-            "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
-            "firebase/firestore": "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"
-        }
-    }
-    </script>
+
+    <!-- Import main Firebase configuration first -->
+    <script type="module" src="main.js"></script>
+    <!-- Then, import the logic for the comments page -->
     <script type="module" src="comments.js"></script>
 </body>
 </html>
