@@ -1,0 +1,60 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f0f2f5;
+}
+
+.phone-view {
+    max-width: 480px;
+    margin: 0 auto;
+    background-color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#signup-app {
+    width: 100%;
+    padding: 2em;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 2em;
+    color: #1877f2;
+    font-size: 1.5em;
+}
+
+input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 1em;
+    margin-bottom: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#signup-submit-btn {
+    width: 100%;
+    background-color: #42b72a;
+    color: white;
+    border: none;
+    padding: 1em;
+    margin-bottom: 1.5em;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.back-to-login-link {
+    color: #1877f2;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.back-to-login-link:hover {
+    text-decoration: underline;
+}

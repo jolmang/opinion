@@ -3,29 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>주제별 의견</title>
+    <title></title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <div class="header-main">
-            <h1><span class="speech-bubble"></span>주제별 의견</h1>
-            <p>주제를 선택하고 의견을 남겨보세요</p>
+    <div class="phone-view">
+        <header>
+            <div class="header-main">
+                <h1></h1>
+            </div>
+            <button id="login-btn">로그인</button>
+        </header>
+
+        <div id="app">
+            <section class="topic-creation-card">
+                <p class="card-title">관심있는 이슈를 올려보세요</p>
+                <input type="text" id="topic-input" placeholder="주제를 입력하세요">
+                <input type="password" id="password-input" placeholder="주제 삭제용 비밀번호 (4~8자리)">
+                <button id="add-topic-btn">주제 추가</button>
+            </section>
+
+            <section id="topics-list">
+                <!-- 주제 목록이 여기에 동적으로 추가됩니다. -->
+            </section>
         </div>
-        <button id="login-btn">로그인</button>
-    </header>
-
-    <div id="app">
-        <section class="topic-creation-card">
-            <p class="card-title"><span class="pin-icon"></span>권한자: 주제 입력</p>
-            <input type="text" id="topic-input" placeholder="주제를 입력하세요">
-            <input type="password" id="password-input" placeholder="주제 삭제용 비밀번호 (4~8자리)">
-            <button id="add-topic-btn">주제 추가</button>
-        </section>
-
-        <section id="topics-list">
-            <!-- 주제 목록이 여기에 동적으로 추가됩니다. -->
-        </section>
     </div>
 
     <script type="importmap">

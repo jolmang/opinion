@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="phone-view">
+        <div id="login-app">
+            <h1>로그인</h1>
+            <input type="email" id="email-input" placeholder="이메일 주소">
+            <input type="password" id="password-input" placeholder="비밀번호">
+            <button id="login-submit-btn">로그인</button>
+            <div class="sub-links">
+                <a href="signup.html">회원가입</a>
+                <span class="separator">|</span>
+                <a href="index.html">메인으로 돌아가기</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+            "firebase/auth": "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"
+        }
+    }
+    </script>
+    <script type="module" src="login.js"></script>
+</body>
+</html>
