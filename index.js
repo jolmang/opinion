@@ -2,24 +2,42 @@
 // Import the shared DB and Auth instances from main.js
 import { db, auth } from './main.js';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { collection, addDoc, getDocs, serverTimestamp, query, orderBy, doc, deleteDoc } from 'firebase/firestore';
+// Import onSnapshot for real-time updates
+import { collection, addDoc, serverTimestamp, query, orderBy, doc, deleteDoc, onSnapshot } from 'firebase/firestore';
 
 const authContainer = document.getElementById('auth-container');
 const topicCreationContainer = document.getElementById('topic-creation-container');
 const topicsList = document.getElementById('topics-list');
 
+// To keep track of the real-time listener and prevent duplicates
+let unsubscribeTopics = null;
+
+// --- Event Delegation for Topic Creation ---
+// A single, persistent listener on the container handles the "Add Topic" button clicks.
+// This prevents attaching multiple listeners, which causes duplicate topic creation.
+
+// We will setup one listener on the parent container to handle clicks on the add button
+topicCreationContainer.addEventListener('click', (event) => {
+    if (event.target.id === 'add-topic-btn') {
+        const user = auth.currentUser;
+        if (user) {
+            addTopic(user.uid);
+        }
+    }
+});
+
 // 1. Listen for authentication state changes
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        renderLoggedInUI(user);
+        renderLoggedInUI();
     } else {
         renderLoggedOutUI();
     }
-    fetchTopics();
+    listenForTopics();
 });
 
-// 2. Render UI for logged-in users
-function renderLoggedInUI(user) {
+// 2. Render UI for logged-in users (without adding listeners)
+function renderLoggedInUI() {
     authContainer.innerHTML = `<button id="logout-btn">로그아웃</button>`;
     document.getElementById('logout-btn').addEventListener('click', async () => {
         try {
@@ -29,11 +47,11 @@ function renderLoggedInUI(user) {
         }
     });
 
+    // This only renders the HTML. The click listener is now handled by the parent container.
     topicCreationContainer.innerHTML = `
         <input type="text" id="topic-title" placeholder="새로운 주제를 입력하세요" maxlength="50">
         <button id="add-topic-btn">주제 추가</button>
     `;
-    document.getElementById('add-topic-btn').addEventListener('click', () => addTopic(user.uid));
 }
 
 // 3. Render UI for logged-out users
@@ -60,7 +78,6 @@ async function addTopic(userId) {
                 createdAt: serverTimestamp()
             });
             titleInput.value = '';
-            fetchTopics();
         } catch (error) {
             console.error("주제 추가 에러: ", error);
             alert("주제 추가에 실패했습니다. 잠시 후 다시 시도해주세요.");
@@ -73,7 +90,6 @@ async function deleteTopic(topicId) {
     if (confirm('정말로 이 주제를 삭제하시겠습니까?')) {
         try {
             await deleteDoc(doc(db, 'topics', topicId));
-            fetchTopics();
         } catch (error) {
             console.error("주제 삭제 에러: ", error);
             alert("주제 삭제에 실패했습니다.");
@@ -81,15 +97,18 @@ async function deleteTopic(topicId) {
     }
 }
 
-// 6. Fetch and display all topics
-async function fetchTopics() {
-    topicsList.innerHTML = '';
-    const currentUser = auth.currentUser;
+// 6. Listen for real-time topic updates
+function listenForTopics() {
+    if (unsubscribeTopics) {
+        unsubscribeTopics();
+    }
 
-    try {
-        const q = query(collection(db, "topics"), orderBy("createdAt", "desc"));
-        const querySnapshot = await getDocs(q);
-        
+    const q = query(collection(db, "topics"), orderBy("createdAt", "desc"));
+
+    unsubscribeTopics = onSnapshot(q, (querySnapshot) => {
+        const currentUser = auth.currentUser;
+        topicsList.innerHTML = '';
+
         if (querySnapshot.empty) {
             topicsList.innerHTML = '<p style="text-align:center; color:#888;">아직 등록된 주제가 없습니다.</p>';
         } else {
@@ -113,20 +132,16 @@ async function fetchTopics() {
                     deleteBtn.className = 'delete-btn';
                     deleteBtn.textContent = '삭제';
                     deleteBtn.addEventListener('click', (event) => {
-                        event.stopPropagation(); // <-- This is the fix!
+                        event.stopPropagation();
                         deleteTopic(topicId);
                     });
                     topicItemContainer.appendChild(deleteBtn);
                 }
-
                 topicsList.appendChild(topicItemContainer);
             });
         }
-    } catch (error) {
+    }, (error) => {
         console.error("주제 목록 불러오기 에러: ", error);
         topicsList.innerHTML = '<p style="text-align:center; color:red;">주제를 불러오는 데 실패했습니다.</p>';
-    }
+    });
 }
-
-// --- Initialize the page ---
-fetchTopics();
